@@ -1,8 +1,12 @@
 import argparse
 import json
-import logging
 
-def balance_customers(css, customers, absent_css = []):
+
+def balance_customers(
+    css: list[dict[str, int]], customers: list[dict[str, int]], absent_css: list[int] = [],
+) -> int:
+    """Calculate the Customer Success that servers more customers. Return 0 if there is a tie."""
+
     cs_more_customer_id = 0
     cs_more_customer_value = 0
 
