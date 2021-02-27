@@ -13,10 +13,10 @@ Estando no diretório raiz do repositório, compile a imagem docker e suas depen
 docker build --tag rd-tech-challenge .
 ```
 
-Execute o repositório com:
+Execute o código como no exemplo:
 
 ```bash
-docker run --rm rd-tech-challenge python3 src/main.py
+docker run --rm rd-tech-challenge python3 src/customer_success_balancing.py '[{"id": 1, "value": 10}, {"id": 2, "value": 20}]' '[{"id": 1, "value": 10}, {"id": 2, "value": 20}]' '[2]'
 ```
 
 Para executar os testes automatizados, execute:

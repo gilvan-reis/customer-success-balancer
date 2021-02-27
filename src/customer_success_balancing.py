@@ -1,3 +1,5 @@
+import argparse
+import json
 import logging
 
 def balance_customers(css, customers, absent_css = []):
@@ -25,3 +27,16 @@ def balance_customers(css, customers, absent_css = []):
                 break
 
     return cs_more_customer_id
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Balance customers to Customer Success")
+    parser.add_argument('css', metavar="CSS", type=json.loads,
+                        help="JSON containing the list of Customer Success")
+    parser.add_argument('customers', metavar="CUSTOMERS", type=json.loads,
+                        help="JSON containing the list of Customers")
+    parser.add_argument('absent_css', metavar="ABSENT_CSS", type=json.loads,
+                        help="JSON containing the list of Absent Customer Success")
+    args = parser.parse_args()
+
+    print(balance_customers(args.css, args.customers, args.absent_css))
