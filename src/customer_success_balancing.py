@@ -1,0 +1,27 @@
+import logging
+
+def balance_customers(css, customers, absent_css = []):
+    cs_more_customer_id = 0
+    cs_more_customer_value = 0
+
+    # TODO: Add params validation
+
+    css = [cs for cs in css if cs['id'] not in absent_css]
+
+    css.sort(key=lambda item: item['value'])
+
+    for customer in customers:
+        for cs in css:
+            if cs['value'] >= customer['value']:
+                # TODO: Add debug log
+                cs['customer_count'] = cs.get('customer_count', 0) + 1
+
+                if cs['customer_count'] == cs_more_customer_value:
+                    cs_more_customer_id = 0
+                elif cs['customer_count'] > cs_more_customer_value:
+                    cs_more_customer_id = cs['id']
+                    cs_more_customer_value = cs['customer_count']
+
+                break
+
+    return cs_more_customer_id
