@@ -10,19 +10,23 @@ caso o código fosse ser reaproveitado por outras partes do sistema.
 Estando no diretório raiz do repositório, compile a imagem docker e suas dependências executando:
 
 ```bash
-docker build --tag rd-tech-challenge .
+make build
 ```
 
 Execute o código como no exemplo:
 
 ```bash
-docker run --rm rd-tech-challenge python3 src/customer_success_balancing.py '[{"id": 1, "value": 10}, {"id": 2, "value": 20}]' '[{"id": 1, "value": 10}, {"id": 2, "value": 20}]' '[2]'
+make run args="'[{\"id\": 1, \"value\": 10}, {\"id\": 2, \"value\": 20}]' '[{\"id\": 1, \"value\": 10}, {\"id\": 2, \"value\": 20}]' '[2]'"
 ```
 
-> :information_source: Caso queira habilitar os logs de debug, basta adicionar `--debug` na execução do código.
+Para mais informações, execute:
+
+```bash
+make run args="-h"
+```
 
 Para executar os testes automatizados, execute:
 
 ```bash
-docker run --rm rd-tech-challenge python3 -m unittest tests.test_customer_success_balacing.TestCustomerSuccessBalancing
+make test
 ```

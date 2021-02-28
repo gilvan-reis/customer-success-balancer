@@ -51,7 +51,7 @@ if __name__ == '__main__':
                         help="JSON containing the list of Customers")
     parser.add_argument('absent_css', metavar="ABSENT_CSS", type=json.loads,
                         help="JSON containing the list of Absent Customer Success")
-    parser.add_argument('--debug', action='store_true', help="Prints debug logs")
+    parser.add_argument('--debug', action='store_true', help="Print debug logs")
     args = parser.parse_args()
 
     if args.debug:
