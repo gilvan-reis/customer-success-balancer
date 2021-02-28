@@ -1,6 +1,7 @@
 import argparse
 import logging
 import json
+from typing import Optional
 
 
 logging.basicConfig()
@@ -22,29 +23,44 @@ def balance_customers(
     css.sort(key=lambda item: item['value'])
 
     for customer in customers:
-        for cs in css:
-            if cs['value'] >= customer['value']:
-                logger.debug(f"customer {customer['id']} served by cs {cs['id']}")
+        cs = _find_cs_for_customer(css, customer)
 
-                cs['customer_count'] = cs.get('customer_count', 0) + 1
-
-                if cs['customer_count'] == cs_more_customer_value:
-                    cs_more_customer_id = 0
-
-                elif cs['customer_count'] > cs_more_customer_value:
-                    cs_more_customer_id = cs['id']
-                    cs_more_customer_value = cs['customer_count']
-
-                break
+        if cs is None:
+            logger.debug(f"customer {customer['id']} was not served by any cs")
 
         else:
-            logger.debug(f"customer {customer['id']} was not served by any cs")
+            logger.debug(f"customer {customer['id']} served by cs {cs['id']}")
+
+            cs['customer_count'] = cs.get('customer_count', 0) + 1
+
+            if cs['customer_count'] == cs_more_customer_value:
+                cs_more_customer_id = 0
+
+            elif cs['customer_count'] > cs_more_customer_value:
+                cs_more_customer_id = cs['id']
+                cs_more_customer_value = cs['customer_count']
 
     return cs_more_customer_id
 
 
 def _remove_absent_css(css: list[dict[str, int]], absent_css: list[int]) -> list[dict[str, int]]:
     return [cs for cs in css if cs['id'] not in absent_css]
+
+
+def _find_cs_for_customer(
+    css: list[dict[str, int]],
+    customer: dict[str, int],
+) -> Optional[dict[str, int]]:
+
+    response = None
+
+    for cs in css:
+        if cs['value'] >= customer['value']:
+            response = cs
+
+            break
+
+    return response
 
 
 if __name__ == '__main__':
