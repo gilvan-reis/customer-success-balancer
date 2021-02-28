@@ -17,7 +17,7 @@ def balance_customers(
 
     # TODO: Add params validation
 
-    css = [cs for cs in css if cs['id'] not in absent_css]
+    css = _remove_absent_css(css, absent_css)
 
     css.sort(key=lambda item: item['value'])
 
@@ -41,6 +41,10 @@ def balance_customers(
             logger.debug(f"customer {customer['id']} was not served by any cs")
 
     return cs_more_customer_id
+
+
+def _remove_absent_css(css: list[dict[str, int]], absent_css: list[int]) -> list[dict[str, int]]:
+    return [cs for cs in css if cs['id'] not in absent_css]
 
 
 if __name__ == '__main__':
