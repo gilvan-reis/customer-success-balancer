@@ -9,7 +9,9 @@ logger = logging.getLogger('customer_success_balacing')
 
 
 def balance_customers(
-    css: list[dict[str, int]], customers: list[dict[str, int]], absent_css: list[int] = [],
+    css: list[dict[str, int]],
+    customers: list[dict[str, int]],
+    absent_css: list[int] = [],
 ) -> int:
     """Calculate the Customer Success that servers more customers. Return 0 if there is a tie."""
 
@@ -43,7 +45,11 @@ def balance_customers(
     return cs_more_customer_id
 
 
-def _remove_absent_css(css: list[dict[str, int]], absent_css: list[int]) -> list[dict[str, int]]:
+def _remove_absent_css(
+    css: list[dict[str, int]],
+    absent_css: list[int],
+) -> list[dict[str, int]]:
+
     return [cs for cs in css if cs['id'] not in absent_css]
 
 
