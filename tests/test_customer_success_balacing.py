@@ -110,3 +110,31 @@ class TestCustomerSuccessBalancing(unittest.TestCase):
 
         # THEN
         self.assertEqual(result, expected_result)
+
+    def test_with_invalid_css(self):
+        # GIVEN
+        css_without_id = [{'value': 10}]
+        css_without_value = [{'id': 1}]
+        customers = self.create_dict([10])
+        absent_css = []
+
+        # WHEN / THEN
+        with self.assertRaises(KeyError):
+            balance_customers(css_without_id, customers, absent_css)
+
+        with self.assertRaises(KeyError):
+            balance_customers(css_without_value, customers, absent_css)
+
+    def test_with_invalid_customers(self):
+        # GIVEN
+        css = self.create_dict([10])
+        customers_without_id = [{'value': 10}]
+        customers_without_value = [{'id': 1}]
+        absent_css = []
+
+        # WHEN / THEN
+        with self.assertRaises(KeyError):
+            balance_customers(css, customers_without_id, absent_css)
+
+        with self.assertRaises(KeyError):
+            balance_customers(css, customers_without_value, absent_css)

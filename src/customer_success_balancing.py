@@ -18,7 +18,8 @@ def balance_customers(
     cs_more_customer_id = 0
     cs_more_customer_value = 0
 
-    # TODO: Add params validation
+    _validate_parameter_fields(css)
+    _validate_parameter_fields(customers)
 
     css = _remove_absent_css(css, absent_css)
 
@@ -43,6 +44,14 @@ def balance_customers(
                 cs_more_customer_value = cs['customer_count']
 
     return cs_more_customer_id
+
+
+def _validate_parameter_fields(
+    parameter: list[dict[str, int]],
+) -> None:
+
+    if not all('id' in element and 'value' in element for element in parameter):
+        raise KeyError('id and value must be informed in all elements')
 
 
 def _remove_absent_css(
