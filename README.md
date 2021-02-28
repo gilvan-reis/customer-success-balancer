@@ -19,6 +19,8 @@ Execute o código como no exemplo:
 docker run --rm rd-tech-challenge python3 src/customer_success_balancing.py '[{"id": 1, "value": 10}, {"id": 2, "value": 20}]' '[{"id": 1, "value": 10}, {"id": 2, "value": 20}]' '[2]'
 ```
 
+> :information_source: Caso queira habilitar os logs de debug, basta adicionar `--debug` na execução do código.
+
 Para executar os testes automatizados, execute:
 
 ```bash
