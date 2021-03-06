@@ -1,4 +1,4 @@
-# rd-tech-challenge
+# customer-success-balancer
 
 Este repositório contém o codigo utilizado no desafio técnico da RD Station.
 
