@@ -1,4 +1,5 @@
 import argparse
+from collections.abc import Iterator
 import logging
 import json
 from typing import Optional
@@ -24,24 +25,28 @@ def balance_customers(
     css = _remove_absent_css(css, absent_css)
 
     css.sort(key=lambda item: item['value'])
+    customers.sort(key=lambda item: item['value'])
+
+    css_iter = iter(css)
+    current_cs = None
 
     for customer in customers:
-        cs = _find_cs_for_customer(css, customer)
+        current_cs = _find_cs_for_customer(current_cs, css_iter, customer)
 
-        if cs is None:
+        if current_cs is None:
             logger.debug(f"customer {customer['id']} was not served by any cs")
 
         else:
-            logger.debug(f"customer {customer['id']} served by cs {cs['id']}")
+            logger.debug(f"customer {customer['id']} served by cs {current_cs['id']}")
 
-            cs['customer_count'] = cs.get('customer_count', 0) + 1
+            current_cs['customer_count'] = current_cs.get('customer_count', 0) + 1
 
-            if cs['customer_count'] == cs_more_customer_value:
+            if current_cs['customer_count'] == cs_more_customer_value:
                 cs_more_customer_id = 0
 
-            elif cs['customer_count'] > cs_more_customer_value:
-                cs_more_customer_id = cs['id']
-                cs_more_customer_value = cs['customer_count']
+            elif current_cs['customer_count'] > cs_more_customer_value:
+                cs_more_customer_id = current_cs['id']
+                cs_more_customer_value = current_cs['customer_count']
 
     return cs_more_customer_id
 
@@ -63,17 +68,24 @@ def _remove_absent_css(
 
 
 def _find_cs_for_customer(
-    css: list[dict[str, int]],
+    current_cs: dict[str, int],
+    css_iter: Iterator[dict[str, int]],
     customer: dict[str, int],
 ) -> Optional[dict[str, int]]:
 
     response = None
 
-    for cs in css:
-        if cs['value'] >= customer['value']:
-            response = cs
-
+    while True:
+        if current_cs is not None and current_cs['value'] >= customer['value']:
+            response = current_cs
             break
+
+        else:
+            try:
+                current_cs = next(css_iter)
+
+            except StopIteration:
+                break
 
     return response
 
