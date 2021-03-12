@@ -1,5 +1,5 @@
 CODE_PATH = src/customer_success_balancing.py
-IMAGE_NAME = rd-tech-challenge
+IMAGE_NAME = customer-success-balancing
 TEST_PATH = tests.test_customer_success_balacing.TestCustomerSuccessBalancing
 
 .PHONY : build
